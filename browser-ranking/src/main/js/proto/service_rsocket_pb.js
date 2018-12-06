@@ -12,8 +12,8 @@ var RecordsServiceClient = function () {
   function RecordsServiceClient(rs, tracer, meterRegistry) {
     this._rs = rs;
     this._tracer = tracer;
-    this.recordsTrace = rsocket_rpc_tracing.trace(tracer, "RecordsService", {"rsocket.rpc.service": "io.rsocket.springone.demo.RecordsService"}, {"method": "records"}, {"rsocket.rpc.role": "client"});
-    this.recordsMetrics = rsocket_rpc_metrics.timed(meterRegistry, "RecordsService", {"service": "io.rsocket.springone.demo.RecordsService"}, {"method": "records"}, {"role": "client"});
+    this.recordsTrace = rsocket_rpc_tracing.trace(tracer, "RecordsService", {"rsocket.rpc.service": "io.rsocket.r2dbc.demo.RecordsService"}, {"method": "records"}, {"rsocket.rpc.role": "client"});
+    this.recordsMetrics = rsocket_rpc_metrics.timed(meterRegistry, "RecordsService", {"service": "io.rsocket.r2dbc.demo.RecordsService"}, {"method": "records"}, {"role": "client"});
   }
   RecordsServiceClient.prototype.records = function records(message, metadata) {
     const map = {};
@@ -21,7 +21,7 @@ var RecordsServiceClient = function () {
       this.recordsTrace(map)(new rsocket_flowable.Flowable(subscriber => {
         var dataBuf = Buffer.from(message.serializeBinary());
         var tracingMetadata = rsocket_rpc_tracing.mapToBuffer(map);
-        var metadataBuf = rsocket_rpc_frames.encodeMetadata('io.rsocket.springone.demo.RecordsService', 'records', tracingMetadata, metadata || Buffer.alloc(0));
+        var metadataBuf = rsocket_rpc_frames.encodeMetadata('io.rsocket.r2dbc.demo.RecordsService', 'records', tracingMetadata, metadata || Buffer.alloc(0));
           this._rs.requestStream({
             data: dataBuf,
             metadata: metadataBuf
@@ -43,8 +43,8 @@ var TournamentServiceClient = function () {
   function TournamentServiceClient(rs, tracer, meterRegistry) {
     this._rs = rs;
     this._tracer = tracer;
-    this.tournamentTrace = rsocket_rpc_tracing.trace(tracer, "TournamentService", {"rsocket.rpc.service": "io.rsocket.springone.demo.TournamentService"}, {"method": "tournament"}, {"rsocket.rpc.role": "client"});
-    this.tournamentMetrics = rsocket_rpc_metrics.timed(meterRegistry, "TournamentService", {"service": "io.rsocket.springone.demo.TournamentService"}, {"method": "tournament"}, {"role": "client"});
+    this.tournamentTrace = rsocket_rpc_tracing.trace(tracer, "TournamentService", {"rsocket.rpc.service": "io.rsocket.r2dbc.demo.TournamentService"}, {"method": "tournament"}, {"rsocket.rpc.role": "client"});
+    this.tournamentMetrics = rsocket_rpc_metrics.timed(meterRegistry, "TournamentService", {"service": "io.rsocket.r2dbc.demo.TournamentService"}, {"method": "tournament"}, {"role": "client"});
   }
   TournamentServiceClient.prototype.tournament = function tournament(message, metadata) {
     const map = {};
@@ -52,7 +52,7 @@ var TournamentServiceClient = function () {
       this.tournamentTrace(map)(new rsocket_flowable.Flowable(subscriber => {
         var dataBuf = Buffer.from(message.serializeBinary());
         var tracingMetadata = rsocket_rpc_tracing.mapToBuffer(map);
-        var metadataBuf = rsocket_rpc_frames.encodeMetadata('io.rsocket.springone.demo.TournamentService', 'tournament', tracingMetadata, metadata || Buffer.alloc(0));
+        var metadataBuf = rsocket_rpc_frames.encodeMetadata('io.rsocket.r2dbc.demo.TournamentService', 'tournament', tracingMetadata, metadata || Buffer.alloc(0));
           this._rs.requestStream({
             data: dataBuf,
             metadata: metadataBuf
@@ -74,8 +74,8 @@ var RankingServiceClient = function () {
   function RankingServiceClient(rs, tracer, meterRegistry) {
     this._rs = rs;
     this._tracer = tracer;
-    this.rankTrace = rsocket_rpc_tracing.trace(tracer, "RankingService", {"rsocket.rpc.service": "io.rsocket.springone.demo.RankingService"}, {"method": "rank"}, {"rsocket.rpc.role": "client"});
-    this.rankMetrics = rsocket_rpc_metrics.timed(meterRegistry, "RankingService", {"service": "io.rsocket.springone.demo.RankingService"}, {"method": "rank"}, {"role": "client"});
+    this.rankTrace = rsocket_rpc_tracing.trace(tracer, "RankingService", {"rsocket.rpc.service": "io.rsocket.r2dbc.demo.RankingService"}, {"method": "rank"}, {"rsocket.rpc.role": "client"});
+    this.rankMetrics = rsocket_rpc_metrics.timed(meterRegistry, "RankingService", {"service": "io.rsocket.r2dbc.demo.RankingService"}, {"method": "rank"}, {"role": "client"});
   }
   RankingServiceClient.prototype.rank = function rank(messages, metadata) {
     const map = {};
@@ -86,7 +86,7 @@ var RankingServiceClient = function () {
         var metadataBuf ;
           this._rs.requestChannel(messages.map(function (message) {
             dataBuf = Buffer.from(message.serializeBinary());
-            metadataBuf = rsocket_rpc_frames.encodeMetadata('io.rsocket.springone.demo.RankingService', 'rank', tracingMetadata, metadata || Buffer.alloc(0));
+            metadataBuf = rsocket_rpc_frames.encodeMetadata('io.rsocket.r2dbc.demo.RankingService', 'rank', tracingMetadata, metadata || Buffer.alloc(0));
             return {
               data: dataBuf,
               metadata: metadataBuf
@@ -109,8 +109,8 @@ var RecordsServiceServer = function () {
   function RecordsServiceServer(service, tracer, meterRegistry) {
     this._service = service;
     this._tracer = tracer;
-    this.recordsTrace = rsocket_rpc_tracing.traceAsChild(tracer, "RecordsService", {"rsocket.rpc.service": "io.rsocket.springone.demo.RecordsService"}, {"method": "records"}, {"rsocket.rpc.role": "server"});
-    this.recordsMetrics = rsocket_rpc_metrics.timed(meterRegistry, "RecordsService", {"service": "io.rsocket.springone.demo.RecordsService"}, {"method": "records"}, {"role": "server"});
+    this.recordsTrace = rsocket_rpc_tracing.traceAsChild(tracer, "RecordsService", {"rsocket.rpc.service": "io.rsocket.r2dbc.demo.RecordsService"}, {"method": "records"}, {"rsocket.rpc.role": "server"});
+    this.recordsMetrics = rsocket_rpc_metrics.timed(meterRegistry, "RecordsService", {"service": "io.rsocket.r2dbc.demo.RecordsService"}, {"method": "records"}, {"role": "server"});
     this._channelSwitch = (payload, restOfMessages) => {
       if (payload.metadata == null) {
         return rsocket_flowable.Flowable.error(new Error('metadata is empty'));
@@ -178,8 +178,8 @@ var TournamentServiceServer = function () {
   function TournamentServiceServer(service, tracer, meterRegistry) {
     this._service = service;
     this._tracer = tracer;
-    this.tournamentTrace = rsocket_rpc_tracing.traceAsChild(tracer, "TournamentService", {"rsocket.rpc.service": "io.rsocket.springone.demo.TournamentService"}, {"method": "tournament"}, {"rsocket.rpc.role": "server"});
-    this.tournamentMetrics = rsocket_rpc_metrics.timed(meterRegistry, "TournamentService", {"service": "io.rsocket.springone.demo.TournamentService"}, {"method": "tournament"}, {"role": "server"});
+    this.tournamentTrace = rsocket_rpc_tracing.traceAsChild(tracer, "TournamentService", {"rsocket.rpc.service": "io.rsocket.r2dbc.demo.TournamentService"}, {"method": "tournament"}, {"rsocket.rpc.role": "server"});
+    this.tournamentMetrics = rsocket_rpc_metrics.timed(meterRegistry, "TournamentService", {"service": "io.rsocket.r2dbc.demo.TournamentService"}, {"method": "tournament"}, {"role": "server"});
     this._channelSwitch = (payload, restOfMessages) => {
       if (payload.metadata == null) {
         return rsocket_flowable.Flowable.error(new Error('metadata is empty'));
@@ -247,8 +247,8 @@ var RankingServiceServer = function () {
   function RankingServiceServer(service, tracer, meterRegistry) {
     this._service = service;
     this._tracer = tracer;
-    this.rankTrace = rsocket_rpc_tracing.traceAsChild(tracer, "RankingService", {"rsocket.rpc.service": "io.rsocket.springone.demo.RankingService"}, {"method": "rank"}, {"rsocket.rpc.role": "server"});
-    this.rankMetrics = rsocket_rpc_metrics.timed(meterRegistry, "RankingService", {"service": "io.rsocket.springone.demo.RankingService"}, {"method": "rank"}, {"role": "server"});
+    this.rankTrace = rsocket_rpc_tracing.traceAsChild(tracer, "RankingService", {"rsocket.rpc.service": "io.rsocket.r2dbc.demo.RankingService"}, {"method": "rank"}, {"rsocket.rpc.role": "server"});
+    this.rankMetrics = rsocket_rpc_metrics.timed(meterRegistry, "RankingService", {"service": "io.rsocket.r2dbc.demo.RankingService"}, {"method": "rank"}, {"role": "server"});
     this._channelSwitch = (payload, restOfMessages) => {
       if (payload.metadata == null) {
         return rsocket_flowable.Flowable.error(new Error('metadata is empty'));

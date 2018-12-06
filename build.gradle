@@ -23,11 +23,10 @@ subprojects {
   apply plugin: 'idea'
   apply plugin: 'io.spring.dependency-management'
 
-  group 'io.rsocket.springone.demo'
+  group 'io.rsocket.r2dbc.demo'
   version '1.0.0'
 
   sourceCompatibility = 1.8
-
 
   ext['protobuf.version'] = '3.6.1'
   ext['rsocket.version'] = '0.11.12'
@@ -39,6 +38,11 @@ subprojects {
 
 	  dependency group: 'io.r2dbc', name: 'r2dbc-postgresql', version: '1.0.0.BUILD-SNAPSHOT'
 
+      dependencySet(group: 'io.netifi.proteus', version: ext['proteus.version']) {
+		entry 'proteus-auth'
+        entry 'proteus-client'
+        entry 'proteus-frames'
+      }
 	  dependencySet(group: 'com.google.protobuf', version: ext['protobuf.version']) {
 		entry 'protoc'
 		entry 'protobuf-java'
@@ -55,7 +59,6 @@ subprojects {
 		entry 'rsocket-rpc-protobuf'
 		entry 'rsocket-rpc-protobuf-idl'
 	  }
-	  dependency "io.netifi.proteus:proteus-spring-boot-starter:${ext['proteus.version']}"
 	}
   }
 

@@ -13,12 +13,12 @@ const Marvel = {
 
     $('#hits .ais-hits').empty();
     this.addMessage("Waiting for Ranking Request...", 'ais-hits');
-    const url = "ws://localhost:8101/";
+    const url = "ws://ws.proteus-broker.apps.bluelake.cf-app.com:80/";
     const proteus = Proteus.create({
       setup: {
-          group: 'springone.demo.ranking',
-          accessKey: 9007199254740991,
-          accessToken: 'kTBDVtfRBO4tHOnZzSyY5ym2kfY=',
+          group: 'io.rsocket.r2dbc.demo.ranking',
+          accessKey: 602046955788162,
+          accessToken: 'ZYABDgKU6zp2VrYr4TSlgCYbkqQ=',
       },
       transport: {
           url,
@@ -27,7 +27,7 @@ const Marvel = {
 
     MicroModal.init();
 
-    proteus.addService('io.rsocket.springone.demo.RankingService', new RankingServiceServer(this));
+    proteus.addService('io.rsocket.r2dbc.demo.RankingService', new RankingServiceServer(this));
 
     proteus._connect().subscribe({
       onComplete: function onComplete(connection) {
@@ -46,7 +46,7 @@ const Marvel = {
             let subscription;
             let request = new RecordsRequest();
             request.setMaxresults(40);
-            new TournamentServiceClient(proteus.group("springone.demo.tournament"))
+            new TournamentServiceClient(proteus.group("io.rsocket.r2dbc.demo.tournament"))
                 .tournament(request)
                 .subscribe({
                     onNext: roundResult => {

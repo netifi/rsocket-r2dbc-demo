@@ -1,12 +1,12 @@
-# Springone Superheroes Demo
-This project provides a scaffolding for getting up and running quickly with [Netifi Proteus](http://www.netifi.com/proteus.html) on [Spring Boot](https://spring.io/projects/spring-boot)
+# RSocket R2DBC Demo
+This project provides a scaffolding for getting up and running quickly with [Netifi Proteus](http://www.netifi.com/proteus.html) and [R2DBC](http://r2dbc.io) on [Spring Boot](https://spring.io/projects/spring-boot)
 
 ## Following Guideline
 
-In order to learn more about the project, plese visit the following webpage [https://netifi.github.io/springone-demo/]
+In order to learn more about the project, plese visit the following webpage [https://netifi.github.io/rsocket-r2dbc-demo/]
 
 ## Bugs and Feedback
-For bugs, questions, and discussions please use the [Github Issues](https://github.com/netifi/springone-demo/issues).
+For bugs, questions, and discussions please use the [Github Issues](https://github.com/netifi/rsocket-r2dbc-demo/issues).
 
 ## License
 Copyright 2018 [Netifi Inc.](https://www.netifi.com)

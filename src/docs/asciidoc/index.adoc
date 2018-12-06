@@ -10,13 +10,13 @@ ifndef::host-github[:ext-relative: {outfilesuffix}]
 
 include::intro.adoc[leveloffset=1]
 ifeval::["{backend}" == "html5"]
-https://github.com/netifi/springone-demo/edit/master/src/docs/asciidoc/intro.adoc[Suggest Edit^, title="Suggest an edit to the above section via github", role="fa fa-edit"]
+https://github.com/netifi/rsocket-r2dbc-demo/edit/master/src/docs/asciidoc/intro.adoc[Suggest Edit^, title="Suggest an edit to the above section via github", role="fa fa-edit"]
 to "<<intro-doc>>"
 endif::[]
 
 include::setup.adoc[leveloffset=1]
 ifeval::["{backend}" == "html5"]
-https://github.com/netifi/springone-demo/edit/master/src/docs/asciidoc/setup.adoc[Suggest Edit, title="Suggest an edit to the above section via github", role="fa fa-edit"]
+https://github.com/netifi/rsocket-r2dbc-demo/edit/master/src/docs/asciidoc/setup.adoc[Suggest Edit, title="Suggest an edit to the above section via github", role="fa fa-edit"]
 to "<<setup-doc>>"
 endif::[]
 

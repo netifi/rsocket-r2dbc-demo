@@ -1,4 +1,4 @@
-# springone-demo
+# rsocket-r2dbc-demo
 Demo application for [Netifi Proteus](https://www.netifi.com) and [RSocket](http://rsocket.io).
 
 ## Preparing the Demo
@@ -28,12 +28,12 @@ Demo application for [Netifi Proteus](https://www.netifi.com) and [RSocket](http
 
 - The page will have several sections
 
-    - My ID for this session is 
+    - My ID for this session is
         - spits out a randomish string that will identify this copy of the application in messages
-    
+
     - Available Brokers
         - Gives a series of messages that identify available Broker instances
-    
+
     - Different Interaction Types
         - Each interaction type will print 2 scrolling lists of messages, those prefixed with "CLIENT" when the application is acting as a client, and messages prefixed with "SERVICE" when it is servicing a request of that interaction type
             - Request/Responses
@@ -45,7 +45,7 @@ Demo application for [Netifi Proteus](https://www.netifi.com) and [RSocket](http
 - With only one browser instance, all CLIENT and SERVICE messages will have your identifier in them. Unless someone else happens to be connected to the same Broker
 - You can experience the magic by opening multiple tabs or multiple browsers (e.g. Chrome and Safari) and going to http://localhost:3000
     - You should notice that each instance now will sometimes to refer to other IDs. This is other application instances servicing your messages and vice versa
-    
+
 ## Modifying the Demo
 
 To edit the homepage (including the JavaScript example code), do the following:
@@ -59,7 +59,7 @@ To edit the homepage (including the JavaScript example code), do the following:
 - Launch the new version of the website, which delivers your modified app with:
 
     yarn start
-    
+
 - Hit http://localhost:3000 in a webbrowser
 
 ### Notes
@@ -71,7 +71,7 @@ To edit the homepage (including the JavaScript example code), do the following:
     - The _client_ should use the Proteus Gateway to create a "group" routed connection, as the PingPong client does
     - Register the new service with the Proteus Gateway with a unique name as the PingPong service does
     `proteus.addService('my.new.service.id', myNewServiceImplementation);`
-  
+
 ## Bugs and Feedback
 For bugs, questions, and discussions please use the [Github Issues](https://github.com/netifi-proteus/proteus-browser-demo/issues).
 

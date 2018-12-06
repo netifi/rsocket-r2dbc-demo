@@ -1,4 +1,4 @@
-rootProject.name = 'springone-demo'
+rootProject.name = 'rsocket-r2dbc-demo'
 include 'client'
 include 'records'
 include 'tournament'

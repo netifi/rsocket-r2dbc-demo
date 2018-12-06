@@ -13,12 +13,12 @@ const Marvel = {
 
     $('#hits .ais-hits').empty();
     this.addMessage("Waiting for Ranking Request...", 'ais-hits');
-    const url = "ws://localhost:8101/";
+    const url = "ws://ws.proteus-broker.apps.bluelake.cf-app.com:80/";
     const proteus = Proteus.create({
       setup: {
-          group: 'springone.demo.scrolling',
-          accessKey: 9007199254740991,
-          accessToken: 'kTBDVtfRBO4tHOnZzSyY5ym2kfY=',
+          group: 'io.rsocket.r2dbc.demo.scrolling',
+          accessKey: 602046955788162,
+          accessToken: 'ZYABDgKU6zp2VrYr4TSlgCYbkqQ=',
       },
       transport: {
           url,
@@ -50,7 +50,7 @@ const Marvel = {
         this.subscription.request(3);
     });
 
-    new RecordsServiceClient(proteus.group("springone.demo.records"))
+    new RecordsServiceClient(proteus.group("io.rsocket.r2dbc.demo.records"))
         .records(request)
         .subscribe({
             onNext: record => {

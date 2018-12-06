@@ -1,10 +1,15 @@
-package io.rsocket.springone.demo;
+package io.rsocket.r2dbc.demo.records;
 
 import io.netty.buffer.ByteBuf;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
-import io.rsocket.springone.demo.Record.Builder;
+import io.rsocket.r2dbc.demo.Record;
+import io.rsocket.r2dbc.demo.Record.Builder;
+import io.rsocket.r2dbc.demo.RecordsRequest;
+import io.rsocket.r2dbc.demo.RecordsService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Flux;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +20,11 @@ import java.util.Optional;
 
 @Component
 public class DefaultRecordsService implements RecordsService {
+  private static final Logger logger = LogManager.getLogger(DefaultRecordsService.class);
   private final PostgresqlConnectionFactory connectionFactory;
 
   public DefaultRecordsService(@Autowired PostgresqlConnectionFactory connectionFactory) {
-      this.connectionFactory = connectionFactory;
+    this.connectionFactory = connectionFactory;
   }
 
   @Override
@@ -30,11 +36,12 @@ public class DefaultRecordsService implements RecordsService {
               .bind(0, request.getOffset())
               .bind(1, request.getMaxResults())
               .execute()
-              .flatMap(result -> result.map(this::toRecord)))
-        .onBackpressureBuffer();
+              .flatMap(result -> result.map(DefaultRecordsService::toRecord)))
+        .onBackpressureBuffer()
+        .doOnRequest(n -> logger.info("{} items requested", n));
   }
 
-  private Record toRecord(Row row, RowMetadata rowMetadata) {
+  private static Record toRecord(Row row, RowMetadata rowMetadata) {
     Builder builder = Record.newBuilder();
     Optional.ofNullable(row.get("id", Integer.class))
         .ifPresent(builder::setId);

@@ -1,13 +1,15 @@
-package io.rsocket.springone.demo;
+package io.rsocket.r2dbc.demo.tournament;
 
 import java.math.RoundingMode;
 import java.util.function.Function;
 
 import com.google.common.math.IntMath;
-import io.netifi.proteus.spring.core.annotation.Group;
+import io.netifi.proteus.Proteus;
 import io.netty.buffer.ByteBuf;
+import io.rsocket.r2dbc.demo.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
 
@@ -17,13 +19,14 @@ import org.springframework.stereotype.Service;
 public class DefaultTournamentService implements TournamentService {
   private static final Logger logger = LogManager.getLogger(DefaultTournamentService.class);
   private static final int WINDOW_SIZE = 2;
-  private static final int CONCURRENCY = 4;
 
-  @Group("springone.demo.records")
-  private RecordsServiceClient recordsService;
+  private final RecordsServiceClient recordsService;
+  private final RankingServiceClient rankingService;
 
-  @Group("springone.demo.ranking")
-  private RankingServiceClient rankingService;
+  public DefaultTournamentService(@Autowired Proteus proteus) {
+    this.recordsService = new RecordsServiceClient(proteus.group("io.rsocket.r2dbc.demo.records"));
+    this.rankingService = new RankingServiceClient(proteus.group("io.rsocket.r2dbc.demo.ranking"));
+  }
 
   @Override
   public Flux<RoundResult> tournament(RecordsRequest request, ByteBuf metadata) {
