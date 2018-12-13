@@ -1,6 +1,7 @@
 package io.rsocket.r2dbc.demo.records;
 
 import io.netty.buffer.ByteBuf;
+import io.r2dbc.postgresql.PostgresqlConnection;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
@@ -14,6 +15,8 @@ import reactor.core.publisher.Flux;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import reactor.pool.NonBlockingPool;
+import reactor.pool.Pool;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -21,21 +24,28 @@ import java.util.Optional;
 @Component
 public class DefaultRecordsService implements RecordsService {
   private static final Logger logger = LogManager.getLogger(DefaultRecordsService.class);
-  private final PostgresqlConnectionFactory connectionFactory;
+
+  private final Pool<PostgresqlConnection> connectionPool;
 
   public DefaultRecordsService(@Autowired PostgresqlConnectionFactory connectionFactory) {
-    this.connectionFactory = connectionFactory;
+    this.connectionPool =
+        NonBlockingPool.factory(connectionFactory.create())
+            .disposer(connection -> connection.close().subscribe())
+            .maxSize(100)
+            .build();
   }
 
   @Override
   public Flux<Record> records(RecordsRequest request, ByteBuf metadata) {
-    return connectionFactory.create()
-        .flatMapMany(connection ->
-          connection
+    return connectionPool.member()
+        .flatMapMany(member ->
+            member
+              .value()
               .createStatement("SELECT * FROM records WHERE thumbnail is not null ORDER BY id OFFSET $1 LIMIT $2")
               .bind(0, request.getOffset())
               .bind(1, request.getMaxResults())
               .execute()
+              .doFinally(signalType -> member.checkin())
               .flatMap(result -> result.map(DefaultRecordsService::toRecord)))
         .onBackpressureBuffer()
         .doOnRequest(n -> logger.info("{} items requested", n));

@@ -37,6 +37,7 @@ subprojects {
 	dependencies {
 
 	  dependency group: 'io.r2dbc', name: 'r2dbc-postgresql', version: '1.0.0.BUILD-SNAPSHOT'
+	  dependency group: 'io.projectreactor', name: 'reactor-pool', version: '0.0.1'
 
       dependencySet(group: 'io.netifi.proteus', version: ext['proteus.version']) {
 		entry 'proteus-auth'
@@ -63,13 +64,19 @@ subprojects {
   }
 
   repositories {
-	mavenLocal()
 	jcenter()
 	maven {
 	  url 'http://repo.spring.io/libs-snapshot'
 	}
 	maven {
 	  url "https://dl.bintray.com/netifi/netifi-oss"
+	}
+	maven {
+	  url = 'https://artifactory.netifiinc.com/artifactory/libs-release-local'
+	  credentials {
+	    username = project.hasProperty('netifiArtifactoryUsername') ? project.property('netifiArtifactoryUsername') : System.getenv('NETIFI_ARTIFACTORY_USERNAME')
+	    password = project.hasProperty('netifiArtifactoryPassword') ? project.property('netifiArtifactoryPassword') : System.getenv('NETIFI_ARTIFACTORY_PASSWORD')
+	  }
 	}
   }
 }

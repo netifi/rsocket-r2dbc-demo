@@ -8,6 +8,7 @@ dependencies {
 
     compile 'org.springframework.boot:spring-boot-starter'
     compile 'io.netifi.proteus:proteus-client'
+    compile 'io.projectreactor:reactor-pool'
 
     compile 'com.google.protobuf:protobuf-java-util'
     compile 'org.postgresql:postgresql'
